@@ -5,7 +5,7 @@
  *  Groupe 14 -- 2025/2026
  * ================================================================
  * To execute the program run in the terminal:
- * cd Group_14_Project_2
+ * cd "Group_14_Projet_2-main"
  * gcc main.c fonctions.c -o gestionnaire
  * ./gestionnaire
  * ================================================================
