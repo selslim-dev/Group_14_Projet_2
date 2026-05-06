@@ -40,6 +40,19 @@ void normaliserStatut(char s[]) {
       s[i] = s[i] + 32;
 }
 
+/* retourne 1 si la chaine ne contient que des chiffres, 0 sinon
+   utilise pour rejeter les noms/prenoms qui sont purement numeriques
+   ex : "1234" est rejete, mais "Ben2Ali" est accepte */
+int estPurementNumerique(const char s[]) {
+  int i;
+  if (s[0] == '\0')
+    return 0;
+  for (i = 0; s[i] != '\0'; i++)
+    if (s[i] < '0' || s[i] > '9')
+      return 0;
+  return 1;
+}
+
 /* les 3 fonctions d'affichage du tableau */
 void afficherLigne() {
   printf("+--------------------+-----------------+-----------------+------+----"
@@ -212,14 +225,25 @@ void ajouterEtudiant() {
   } while (existe);
 
   /* le " " avant % permet d'ignorer les espaces restants dans le buffer
-     et [^\n] permet de lire des noms avec espaces comme "Ben Ali" */
-  printf("  Nom        : ");
-  scanf(" %49[^\n]", nouvel.nom);
-  viderBuffer();
+     et [^\n] permet de lire des noms avec espaces comme "Ben Ali"
+     on boucle tant que la saisie est purement numerique */
+  do {
+    printf("  Nom        : ");
+    scanf(" %49[^\n]", nouvel.nom);
+    viderBuffer();
+    if (estPurementNumerique(nouvel.nom))
+      printf("  Erreur : le nom ne peut pas etre compose uniquement de chiffres."
+             " Veuillez entrer un nom valide.\n");
+  } while (estPurementNumerique(nouvel.nom));
 
-  printf("  Prenom     : ");
-  scanf(" %49[^\n]", nouvel.prenom);
-  viderBuffer();
+  do {
+    printf("  Prenom     : ");
+    scanf(" %49[^\n]", nouvel.prenom);
+    viderBuffer();
+    if (estPurementNumerique(nouvel.prenom))
+      printf("  Erreur : le prenom ne peut pas etre compose uniquement de chiffres."
+             " Veuillez entrer un prenom valide.\n");
+  } while (estPurementNumerique(nouvel.prenom));
 
   nouvel.note1 = saisirNote(1);
   nouvel.note2 = saisirNote(2);
